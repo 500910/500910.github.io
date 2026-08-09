@@ -1,0 +1,227 @@
+"""
+Weather Dashboard Backend
+Fetches weather data from Open-Meteo API (no API key required)
+"""
+
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+import requests
+from datetime import datetime, timedelta
+import logging
+from config import Config
+
+# Initialize Flask app
+app = Flask(__name__)
+app.config.from_object(Config)
+CORS(app)
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+class WeatherService:
+    """Service to handle weather API calls"""
+    
+    def __init__(self):
+        self.openmeteo_url = Config.OPENMETEO_API_URL
+        self.geocoding_url = Config.GEOCODING_API_URL
+    
+    def search_location(self, query):
+        """Search for location coordinates by city name"""
+        try:
+            params = {
+                "name": query,
+                "count": 5,
+                "language": "en",
+                "format": "json"
+            }
+            response = requests.get(self.geocoding_url, params=params, timeout=5)
+            response.raise_for_status()
+            
+            data = response.json()
+            if "results" in data and data["results"]:
+                return data["results"]
+            return []
+        except requests.RequestException as e:
+            logger.error(f"Location search error: {e}")
+            return []
+    
+    def get_current_weather(self, latitude, longitude):
+        """Get current weather for given coordinates"""
+        try:
+            params = {
+                "latitude": latitude,
+                "longitude": longitude,
+                "current": "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,is_day",
+                "daily": "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max",
+                "hourly": "temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m",
+                "timezone": "auto",
+                "forecast_days": 7
+            }
+            
+            response = requests.get(self.openmeteo_url, params=params, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException as e:
+            logger.error(f"Weather API error: {e}")
+            return None
+    
+    def interpret_weather_code(self, code, is_day=True):
+        """Convert WMO weather codes to human-readable descriptions"""
+        weather_codes = {
+            0: ("Clear sky", "☀️" if is_day else "🌙"),
+            1: ("Mainly clear", "🌤️"),
+            2: ("Partly cloudy", "⛅"),
+            3: ("Overcast", "☁️"),
+            45: ("Foggy", "🌫️"),
+            48: ("Foggy", "🌫️"),
+            51: ("Light drizzle", "🌧️"),
+            53: ("Moderate drizzle", "🌧️"),
+            55: ("Dense drizzle", "🌧️"),
+            61: ("Slight rain", "🌦️"),
+            63: ("Moderate rain", "🌧️"),
+            65: ("Heavy rain", "⛈️"),
+            71: ("Slight snow", "❄️"),
+            73: ("Moderate snow", "❄️"),
+            75: ("Heavy snow", "❄️"),
+            77: ("Snow grains", "❄️"),
+            80: ("Slight rain showers", "🌦️"),
+            81: ("Moderate rain showers", "🌧️"),
+            82: ("Violent rain showers", "⛈️"),
+            85: ("Slight snow showers", "❄️"),
+            86: ("Heavy snow showers", "❄️"),
+            95: ("Thunderstorm", "⛈️"),
+            96: ("Thunderstorm with hail", "⛈️"),
+            99: ("Thunderstorm with hail", "⛈️"),
+        }
+        
+        description, emoji = weather_codes.get(code, ("Unknown", "❓"))
+        return {"description": description, "emoji": emoji}
+
+
+weather_service = WeatherService()
+
+
+# Routes
+
+@app.route("/api/search", methods=["GET"])
+def search_location():
+    """Search for locations"""
+    query = request.args.get("q", "").strip()
+    
+    if not query or len(query) < 2:
+        return jsonify({"error": "Query must be at least 2 characters"}), 400
+    
+    locations = weather_service.search_location(query)
+    return jsonify({
+        "query": query,
+        "results": locations
+    })
+
+
+@app.route("/api/weather", methods=["GET"])
+def get_weather():
+    """Get weather for given coordinates"""
+    try:
+        lat = float(request.args.get("latitude"))
+        lon = float(request.args.get("longitude"))
+        
+        if not (-90 <= lat <= 90 and -180 <= lon <= 180):
+            return jsonify({"error": "Invalid coordinates"}), 400
+        
+        weather_data = weather_service.get_current_weather(lat, lon)
+        
+        if not weather_data:
+            return jsonify({"error": "Failed to fetch weather data"}), 500
+        
+        # Process and format the response
+        current = weather_data.get("current", {})
+        daily = weather_data.get("daily", {})
+        hourly = weather_data.get("hourly", {})
+        
+        # Interpret weather code
+        weather_code = current.get("weather_code", 0)
+        is_day = current.get("is_day", True)
+        weather_info = weather_service.interpret_weather_code(weather_code, is_day)
+        
+        # Format hourly data (next 24 hours)
+        hourly_forecast = []
+        times = hourly.get("time", [])
+        temps = hourly.get("temperature_2m", [])
+        codes = hourly.get("weather_code", [])
+        
+        for i in range(min(24, len(times))):
+            if i < len(temps) and i < len(codes):
+                hour_time = datetime.fromisoformat(times[i])
+                hourly_forecast.append({
+                    "time": hour_time.strftime("%H:%M"),
+                    "temperature": temps[i],
+                    "weather": weather_service.interpret_weather_code(codes[i], is_day).get("emoji")
+                })
+        
+        # Format daily forecast
+        daily_forecast = []
+        daily_times = daily.get("time", [])
+        daily_max = daily.get("temperature_2m_max", [])
+        daily_min = daily.get("temperature_2m_min", [])
+        daily_codes = daily.get("weather_code", [])
+        daily_precip = daily.get("precipitation_sum", [])
+        
+        for i in range(min(7, len(daily_times))):
+            if i < len(daily_max):
+                day_date = datetime.fromisoformat(daily_times[i])
+                daily_forecast.append({
+                    "date": day_date.strftime("%a, %b %d"),
+                    "max_temp": daily_max[i],
+                    "min_temp": daily_min[i] if i < len(daily_min) else None,
+                    "weather": weather_service.interpret_weather_code(daily_codes[i] if i < len(daily_codes) else 0, True).get("description"),
+                    "emoji": weather_service.interpret_weather_code(daily_codes[i] if i < len(daily_codes) else 0, True).get("emoji"),
+                    "precipitation": daily_precip[i] if i < len(daily_precip) else 0
+                })
+        
+        response = {
+            "timezone": weather_data.get("timezone", "UTC"),
+            "current": {
+                "temperature": current.get("temperature_2m"),
+                "apparent_temperature": current.get("apparent_temperature"),
+                "humidity": current.get("relative_humidity_2m"),
+                "weather_code": weather_code,
+                "weather_description": weather_info["description"],
+                "weather_emoji": weather_info["emoji"],
+                "wind_speed": current.get("wind_speed_10m"),
+                "wind_direction": current.get("wind_direction_10m"),
+                "is_day": is_day,
+                "time": current.get("time")
+            },
+            "hourly": hourly_forecast,
+            "daily": daily_forecast
+        }
+        
+        return jsonify(response)
+    
+    except (TypeError, ValueError) as e:
+        return jsonify({"error": "Invalid parameters"}), 400
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        return jsonify({"error": "Server error"}), 500
+
+
+@app.route("/api/health", methods=["GET"])
+def health_check():
+    """Health check endpoint"""
+    return jsonify({"status": "healthy", "timestamp": datetime.now().isoformat()})
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({"error": "Endpoint not found"}), 404
+
+
+@app.errorhandler(500)
+def server_error(error):
+    return jsonify({"error": "Internal server error"}), 500
+
+
+if __name__ == "__main__":
+    app.run(debug=app.config["DEBUG"], host="0.0.0.0", port=5000)
