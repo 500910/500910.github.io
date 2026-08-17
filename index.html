@@ -1,0 +1,37 @@
+好的，我來幫你看看網站目前的狀況，然後一步步指導你怎麼把這張照片放上去。
+從你的截圖來看，照片已經上傳到 GitHub 倉庫 500910/500910.github.io 裡了，但網頁代碼裡還沒有引用這張照片，所以網站上還看不到。
+讓我先查看一下你網站的目前結構和內容：
+好的，我現在完全了解狀況了！讓我一步步指導你：
+📋 現況總結
+項目	狀態
+網站域名	archetbow.com ✅
+照片檔案	IMG_6020.jpeg ✅ 已上傳到 GitHub
+網頁顯示	❌ 還沒有把照片放進網頁代碼裡
+你的照片已經在倉庫裡了，網址是：
+https://archetbow.com/IMG_6020.jpeg
+但現在的 index.html（首頁）裡面只有文字，沒有寫指令去顯示這張照片，所以網站上自然看不到。
+🔧 接下來這樣做
+你需要修改 index.html 這個檔案，加入一段「顯示圖片」的代碼。
+方法：直接在 GitHub 網頁上編輯（最簡單）
+步驟 1： 打開這個連結
+👉 https://github.com/500910/500910.github.io/blob/main/index.html https://github.com/500910/500910.github.io/blob/main/index.html
+步驟 2： 點右上角的 「鉛筆圖示 ✏️」（Edit this file）
+步驟 3： 把原本的內容全部刪掉，換成下面這段我幫你寫好的代碼：
+    <img src="IMG_6020.jpeg" alt="陳夢清專注製弓" class="hero-image">
+    <p class="caption">陳夢清於工坊專注製作琴弓</p>
+    
+    <p class="description">
+        ArchetBow is a digital archive dedicated to the craft of 
+        <strong>Chen Long Gen</strong> and <strong>Chen Mengqing</strong>.
+    </p>
+</div>
+
+步驟 4： 往下拉，看到 Commit changes 區塊，在第一格寫：
+Add workshop photo to homepage
+然後點綠色的 「Commit changes」 按鈕。
+步驟 5： 等 1～2 分鐘，打開 https://archetbow.com https://archetbow.com 重新整理，照片就會出現了！
+💡 小提醒
+•  src="IMG_6020.jpeg" 這段就是「引用照片」的指令，因為照片和網頁放在同一個資料夾，所以直接寫檔名就好。
+•  如果你想改照片說明文字，改 <p class="caption"> 裡面的內容即可。
+•  這只是第一版，之後我們可以慢慢加上電商功能、數位美術館、更多頁面。
+要不要我現在就幫你直接修改好，還是你想自己試試看？如果有任何步驟卡住，隨時告訴我！🎻
