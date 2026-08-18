@@ -1,0 +1,166 @@
+:root {
+  --bg-primary: #0d0d0d;
+  --bg-card: #181818;
+  --accent-gold: #C58B58;
+  --text-main: #FFFFFF;
+  --text-muted: #A1A1A6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 5%;
+  background-color: rgba(13, 13, 13, 0.95);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #222;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+/* 確保 SVG Logo 的文字與線條正常顯示 */
+.logo svg, .footer-logo svg {
+  display: block;
+}
+
+.logo svg text, .footer-logo svg text {
+  display: inline !important;
+  visibility: visible !important;
+}
+
+nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--accent-gold);
+}
+
+/* MAIN CONTENT */
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* CRAFTSMAN SECTION */
+.craftsman-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+@media (min-width: 768px) {
+  .craftsman-container {
+    flex-direction: row;
+    align-items: center;
+  }
+  .craftsman-image, .craftsman-text {
+    flex: 1;
+  }
+}
+
+.craftsman-text h3 {
+  font-size: 1.8rem;
+  color: var(--accent-gold);
+  margin-bottom: 15px;
+}
+
+/* AWARDS SECTION */
+#awards {
+  padding: 40px 20px;
+  border-radius: 8px;
+  margin-bottom: 60px;
+}
+
+.section-title {
+  color: var(--text-main);
+  letter-spacing: 2px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.section-subtitle {
+  color: var(--accent-gold);
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+}
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .awards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.award-item {
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #282828;
+}
+
+.award-year {
+  color: var(--accent-gold);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.award-title {
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.award-desc {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid #222;
+  background-color: #080808;
+}
+
+.footer-logo {
+  margin-bottom: 15px;
+}
+
+.copyright {
+  color: #555;
+  font-size: 0.75rem;
+  margin-top: 15px;
+}
