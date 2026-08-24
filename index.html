@@ -1,0 +1,40 @@
+<!-- 完整藝廊區塊（一次性替換） -->
+<style>
+  .custom-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+  }
+  .gallery-card {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 320px; /* 固定卡片高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gallery-card img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* 關鍵：完整顯示弓頭與證書，絕不裁剪 */
+    display: block;
+  }
+</style>
+
+<div class="custom-gallery">
+  <div class="gallery-card">
+    <img src="images/IMG_6019.jpeg" alt="Craftsmanship Photo 2">
+  </div>
+  <div class="gallery-card">
+    <img src="images/IMG_6020.jpeg" alt="Craftsmanship Photo 3">
+  </div>
+  <div class="gallery-card">
+    <!-- 請確認 images/ 資料夾內的證書檔名與大小寫（如 diploma.jpeg 或 diploma.jpg） -->
+    <img src="images/diploma.jpeg" alt="Special Mention Award - Mirecourt 2026">
+  </div>
+</div>
