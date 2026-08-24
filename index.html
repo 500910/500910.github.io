@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陳夢慶的個人檔案</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .profile-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        .job-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .gallery-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .gallery-card img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        .cert-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .cert-card img {
+            max-width: 100%;
+            width: 500px;
+            height: auto;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 公司/個人 Logo -->
+    <header>
+        <img src="images/IMG_5987.jpeg" alt="Logo" class="logo">
+    </header>
+
+    <main>
+        <!-- 陳夢慶個人資料與工作照 -->
+        <section class="profile-card">
+            <img src="images/IMG_6015.jpeg" alt="陳夢慶工作照" class="profile-img">
+            <h1>陳夢慶</h1>
+            <div class="job-title">公職與專業職務名稱</div>
+        </section>
+
+        <!-- 工作與公職照片牆 -->
+        <div class="section-title">工作與公職風采</div>
+        <section class="gallery-grid">
+            <div class="gallery-card">
+                <img src="images/IMG_6016.jpeg" alt="工作紀錄照片 1">
+            </div>
+            <div class="gallery-card">
+                <img src="images/IMG_6019.jpeg" alt="工作紀錄照片 2">
+            </div>
+            <div class="gallery-card">
+                <img src="images/IMG_6020.jpeg" alt="公職照片 1">
+            </div>
+            <div class="gallery-card">
+                <img src="images/IMG_6041.jpeg" alt="公職照片 2">
+            </div>
+        </section>
+
+        <!-- 獲獎證書 -->
+        <div class="section-title">獲獎榮譽證書</div>
+        <section class="cert-card">
+            <img src="images/IMG_6096.jpeg" alt="獲獎證書">
+        </section>
+    </main>
+
+</body>
+</html>
