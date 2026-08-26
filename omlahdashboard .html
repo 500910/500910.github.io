@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMLAH AI Investment Lab</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent-green: #3fb950;
+            --border-color: #30363d;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            padding: 20px;
+        }
+        .dashboard-container { max-width: 1200px; margin: 0 auto; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        h1 { font-size: 1.5rem; font-weight: 600; }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .market-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .metric-title { color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 5px; }
+        .metric-value { font-size: 1.5rem; font-weight: 700; }
+        .metric-change { font-size: 0.875rem; margin-top: 5px; }
+        .positive { color: var(--accent-green); }
+        .section-title { font-size: 1.25rem; margin-bottom: 15px; font-weight: 600; }
+        .top-picks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .pick-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pick-info .symbol { font-size: 1.25rem; font-weight: 700; }
+        .pick-info .price { font-size: 1rem; color: var(--text-secondary); }
+        .pick-score {
+            background-color: rgba(63, 185, 80, 0.1);
+            color: var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        .holdings-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .holdings-table th, .holdings-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .holdings-table th { color: var(--text-secondary); font-weight: 600; font-size: 0.875rem; }
+        @media (max-width: 768px) {
+            .holdings-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>OMLAH AI Investment Lab</h1>
+            <div><strong>Data:</strong> 2026-07-24</div>
+        </header>
+
+        <section class="card market-overview">
+            <div>
+                <div class="metric-title">S&P 500</div>
+                <div class="metric-value">5,564.41</div>
+                <div class="metric-change positive">+1.02%</div>
+            </div>
+            <div>
+                <div class="metric-title">NASDAQ</div>
+                <div class="metric-value">18,352.76</div>
+                <div class="metric-change positive">+1.18%</div>
+            </div>
+            <div>
+                <div class="metric-title">DOW JONES</div>
+                <div class="metric-value">40,358.09</div>
+                <div class="metric-change positive">+0.53%</div>
+            </div>
+            <div>
+                <div class="metric-title">Market Sentiment</div>
+                <div class="metric-value" style="color: #d29922;">68 (Optimistic)</div>
+            </div>
+        </section>
+
+        <h2 class="section-title">Today's Top Picks</h2>
+        <section class="top-picks">
+            <div class="card pick-card">
+                <div class="pick-info">
+                    <div class="symbol">NVDA (Nvidia)</div>
+                    <div class="price">$129.37 <span class="positive">+3.45%</span></div>
+                </div>
+                <div class="pick-score">88</div>
+            </div>
+            <div class="card pick-card">
+                <div class="pick-info">
+                    <div class="symbol">TSLA (Tesla)</div>
+                    <div class="price">$269.89 <span class="positive">+2.78%</span></div>
+                </div>
+                <div class="pick-score">82</div>
+            </div>
+            <div class="card pick-card">
+                <div class="pick-info">
+                    <div class="symbol">GOOG (Alphabet)</div>
+                    <div class="price">$184.92 <span class="positive">+2.32%</span></div>
+                </div>
+                <div class="pick-score">79</div>
+            </div>
+        </section>
+
+        <h2 class="section-title">Current Holdings</h2>
+        <section class="card">
+            <table class="holdings-table">
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Shares</th>
+                        <th>Cost Price</th>
+                        <th>Current Price</th>
+                        <th>Profit / Loss</th>
+                        <th>OMLAH Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AVGO</strong> Broadcom</td>
+                        <td>6</td>
+                        <td>$399.50</td>
+                        <td>$425.18</td>
+                        <td class="positive">+$154.08 (+6.42%)</td>
+                        <td>84</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GOOG</strong> Alphabet</td>
+                        <td>4</td>
+                        <td>$320.70</td>
+                        <td>$334.21</td>
+                        <td class="positive">+$54.04 (+4.21%)</td>
+                        <td>79</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TSLA</strong> Tesla</td>
+                        <td>1</td>
+                        <td>$333.01</td>
+                        <td>$336.71</td>
+                        <td class="positive">+$3.70 (+1.11%)</td>
+                        <td>72</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MU</strong> Micron</td>
+                        <td>5</td>
+                        <td>$885.00</td>
+                        <td>$934.00</td>
+                        <td class="positive">+$245.00 (+5.54%)</td>
+                        <td>78</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VOO</strong> Vanguard S&P 500</td>
+                        <td>5</td>
+                        <td>$322.65</td>
+                        <td>$326.71</td>
+                        <td class="positive">+$20.30 (+1.26%)</td>
+                        <td>68</td>
+                    </tr>
+                    <tr>
+                        <td><strong>USD Cash</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>$5,012.50</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
