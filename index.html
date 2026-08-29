@@ -1,0 +1,190 @@
+好的！我現在把修改後的完整新代碼直接貼在這裡，你全選複製貼到 GitHub 即可。
+📄 新代碼（全選複製）
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">
+        ARCHET
+        <span>FINE BOWS</span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="#contact">Contact</a>
+    </div>
+    <button class="mobile-menu-btn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</nav>
+
+<header>
+    <img src="images/IMG_5987.jpeg" alt="Archet Bow Logo" class="logo">
+</header>
+
+<main>
+    <div class="section-title">Master Craftsman</div>
+    <section class="master-card">
+        <div class="master-photo">
+            <span>Photo</span>
+        </div>
+        <div class="master-info">
+            <h2>Longgen Chen</h2>
+            <div class="credentials">
+                National First-Class Senior Technician<br>
+                VSA 4-time Winner<br>
+                German Competition 1st Prize Cello Bow
+            </div>
+            <p>
+                Over forty years dedicated to bow making, guided by the belief that
+                "every bow is an extension of the player's arm."
+                His work is trusted by international soloists and has earned
+                the highest honors at international bow making competitions.
+            </p>
+        </div>
+    </section>
+
+    <div class="section-title">Next Generation</div>
+    <section class="profile-card">
+        <h1>Mengqing Chen</h1>
+        <div class="job-title">Master Bow Maker</div>
+        <p style="margin-top:15px;color:#666;font-size:15px;">
+            2026 Mirecourt International Bow Making Competition — Silver Medal<br>
+            + Special Mention for Bow Quartet (sole recipient)
+        </p>
+    </section>
+
+    <div class="section-title">Latest Creation</div>
+    <section class="feature-card">
+        <h3>Featured Violin Bow</h3>
+        <ul>
+            <li><strong>Material:</strong> Premium Master-Grade Pernambuco Wood</li>
+            <li><strong>Fittings:</strong> 14K Gold</li>
+            <li><strong>Weight:</strong> 60.7 grams</li>
+            <li><strong>Frog:</strong> High-Density Madagascar Ebony</li>
+            <li><strong>Slide / Eye:</strong> Goldfish Shell</li>
+            <li><strong>Model:</strong> Inspired by Peccatte Camber & Design</li>
+        </ul>
+    </section>
+
+    <div class="section-title">Workshop & Craftsmanship</div>
+    <section class="gallery-grid">
+        <div class="gallery-card">
+            <img src="images/IMG_6019.jpeg" alt="Bow Detail" onclick="openLightbox(this.src)">
+        </div>
+        <div class="gallery-card">
+            <img src="images/IMG_6020.jpeg" alt="Bow Detail" onclick="openLightbox(this.src)">
+        </div>
+        <div class="gallery-card">
+            <img src="images/IMG_6041.jpeg" alt="Workshop" onclick="openLightbox(this.src)">
+        </div>
+        <div class="gallery-card">
+            <img src="images/IMG_6019.jpeg" alt="Bow Detail" onclick="openLightbox(this.src)">
+        </div>
+    </section>
+
+    <div class="section-title">Award & Certificate</div>
+    <section class="cert-card">
+        <img src="images/IMG_6018.jpeg" alt="Mirecourt 2026 Special Mention" onclick="openLightbox(this.src)">
+        <p style="margin-top:20px;font-size:14px;color:#666;line-height:1.8;">
+            2nd International Violin Making & Bow Making Competition of Mirecourt 2026<br>
+            Special mention delivered to <strong>Mengqing Chen</strong> for presenting a bow quartet
+        </p>
+    </section>
+</main>
+
+<footer id="contact">
+    <p class="logo-text">ARCHET FINE BOWS</p>
+    <p class="tagline">The Art of the Bow</p>
+    <div class="contact-info">
+        <p>
+            Contact: <a href="mailto:info@archetbow.com">info@archetbow.com</a><br>
+            WeChat: [Your WeChat ID]<br>
+            Instagram: <a href="https://instagram.com/archetbow" target="_blank">@archetbow</a>
+        </p>
+    </div>
+    <p class="copyright">
+        &copy; 2026 ArchetBow.com All Rights Reserved
+    </p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="">
+</div>
+
+<div class="music-player" id="musicPlayer">
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()" aria-label="Play Music">
+        <span id="musicIcon">&#9654;</span>
+    </button>
+    <div class="music-info">
+        <div class="music-label">Now Playing</div>
+        <div class="music-title" id="musicTitle">Bach - Violin Partita</div>
+    </div>
+    <audio id="bgMusic" loop>
+        <source src="music/background.mp3" type="audio/mpeg">
+        Your browser does not support audio playback.
+    </audio>
+</div>
+
+<script>
+    function openLightbox(src) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+    });
+
+    const music = document.getElementById('bgMusic');
+    const btn = document.getElementById('musicBtn');
+    const icon = document.getElementById('musicIcon');
+    let isPlaying = false;
+
+    function toggleMusic() {
+        if (isPlaying) {
+            music.pause();
+            icon.innerHTML = '&#9654;';
+            btn.classList.remove('playing');
+        } else {
+            music.play().catch(err => { console.log('Playback failed:', err); });
+            icon.innerHTML = '&#10074;&#10074;';
+            btn.classList.add('playing');
+        }
+        isPlaying = !isPlaying;
+    }
+    music.addEventListener('ended', () => {
+        isPlaying = false;
+        icon.innerHTML = '&#9654;';
+        btn.classList.remove('playing');
+    });
+</script>
+
+----
+🎵 關於巴赫音樂
+網頁裡已經有音樂播放器代碼，但音樂檔案需要你自己上傳：
+1.  去這個網站下載免費巴赫音樂：https://musopen.org/music https://musopen.org/music
+2.  搜尋 "Bach Violin Partita" 或 "Bach Cello Suite"
+3.  下載 MP3，改名為 background.mp3
+4.  在 GitHub 倉庫裡新建 music/ 資料夾，把 MP3 上傳進去
+5.  網頁右下角就會出現 ▶ 播放按鈕，點擊即可播放
+----
+🔧 部署步驟
+1.  打開 GitHub 倉庫的 index.html
+2.  點 ✏️ Edit → 全選刪除舊內容
+3.  貼上上面全部新代碼
+4.  Commit message：Update new version
+5.  點 Commit changes
+6.  等 1-2 分鐘，刷新 archetbow.com
+----
+✅ 這次修改了什麼
+問題	修復
+照片下面有錯誤英文	✅ 全部去掉，照片乾淨無文字
+頁面整體太小	✅ 調大：padding、字體、間距加大
+照片尺寸	✅ 調高到 180px
+音樂播放器	✅ 右下角顯示 ▶ 按鈕（需上傳音樂檔案）
+貼完告訴我效果！🙏🎻
